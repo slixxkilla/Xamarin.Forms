@@ -198,10 +198,6 @@ namespace Xamarin.Forms.Platform.iOS
 			UpdateCellConstraints();
 		}
 
-		
-		// TODO hartez 2018/09/19 09:57:21 When we start working out grouping, we'll have to figure out how to handle group headers	here
-		// Do group headers get snapped to? What about other decorations?
-
 		public override CGPoint TargetContentOffset(CGPoint proposedContentOffset, CGPoint scrollingVelocity)
 		{
 						var snapPointsType = _itemsLayout.SnapPointsType;
@@ -213,7 +209,6 @@ namespace Xamarin.Forms.Platform.iOS
 			}
 
 			// Get the viewport of the UICollectionView
-			// TODO hartez 2018/09/19 13:19:31 This needs to account for insets	
 			var viewport = new CGRect(proposedContentOffset, CollectionView.Bounds.Size);
 
 			// And find all the elements currently visible in the viewport
@@ -233,15 +228,9 @@ namespace Xamarin.Forms.Platform.iOS
 				// then we need to align the viewport with it
 				if (snapPointsType == SnapPointsType.Mandatory || snapPointsType == SnapPointsType.MandatorySingle)
 				{
-					// TODO hartez 2018/09/19 13:36:44 Extension method	
-					// I want this to read
-					// proposedContentOffset.AlignTo(frame, viewport, alignment, scrollDirection)
-					
-					return SnapHelpers.AdjustContentOffset(proposedContentOffset, visibleElements[0].Frame, viewport, alignment,
-						ScrollDirection);
+					return SnapHelpers.AdjustContentOffset(proposedContentOffset, visibleElements[0].Frame, viewport,
+						alignment, ScrollDirection);
 				}
-
-				// TODO hartez 2018/09/19 10:12:01 Handle "optional" snap points types	
 			}
 
 			// If there are multiple items in the viewport, we need to choose the one which is 
@@ -268,8 +257,6 @@ namespace Xamarin.Forms.Platform.iOS
 				return SnapHelpers.AdjustContentOffset(proposedContentOffset, visibleElements[0].Frame, viewport, alignment,
 					ScrollDirection);
 			}
-
-			// TODO hartez 2018/09/19 10:12:01 Handle "optional" snap points types	
 
 			return base.TargetContentOffset(proposedContentOffset, scrollingVelocity);
 		}
